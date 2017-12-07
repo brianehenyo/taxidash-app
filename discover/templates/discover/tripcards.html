@@ -1,0 +1,23 @@
+{% if trips %}
+    <div class="list-msg">Here are the trips near you:</div>
+    {#        {% include 'discover/triplist.html' %}#}
+    {% for trip in trips %}
+        <div class="card cardTemplate trip" id="{{ trip.id }}">
+            <div class="left">
+                <div class="organizer label">{{ trip.organizer }}</div>
+                <div class="meetup-point">
+                    <div class="locpin"></div>
+                    <div class="location">{{ trip.meetup_pt }}</div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="label">Available seats</div>
+                <div class="seats">
+                    <span class="available">{{ trip.avail_passengers }}</span><span class="maxSeats">/4人</span>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="list-msg">There are 0 trips nearby. Press the (+) icon to organize a new one.</div>
+{% endif %}

@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FUN Taxi Dash</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'discover/styles/global.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'discover/styles/taxilist.css' %}">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+</head>
+<body>
+<header class="header">
+    <form action="{% url 'discover:back' %}" method="get">
+        <button id="butCancel" class="headerButton" aria-label="Cancel"></button>
+    </form>
+    <h1 class="header_title">Taxi Companies</h1>
+</header>
+
+<main class="main">
+    {% if companies %}
+        {% for company in companies %}
+            <div class="card">
+                <div class="left">
+                    <div class="compName">{{ company.name }}</div>
+                    <div class="compContact">{{ company.contact }}</div>
+                </div>
+                <div class="right">
+                    <button class="butCopy" aria-label="Copy" value="{{ company.contact }}">Copy</button>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="list-msg">There are no taxi companies available.</div>
+    {% endif %}
+    {% if referer == "detail" %}
+        <div>
+            <form id="detail-actions" action="{% url 'discover:enroute' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" id="butEnroute" class="button preferred">Start trip</button>
+            </form>
+        </div>
+    {% endif %}
+</main>
+
+<script>
+    taxi_cards = $('.butCopy');
+    taxi_cards.each(function (index) {
+        $(this).on("click", function () {
+            selectedContact = $(this).val();
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(selectedContact);
+            $temp.select();
+            document.execCommand("copy");
+            $temp.remove();
+        });
+    });
+</script>
+</body>
+</html>

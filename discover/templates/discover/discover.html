@@ -1,0 +1,172 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FUN Taxi Dash</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'discover/styles/global.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'discover/styles/discover.css' %}">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            console.log(position.coords.latitude);
+            console.log(position.coords.longitude);
+            $('#hdnLatitude').val(position.coords.latitude);
+            $('#hdnLongitude').val(position.coords.longitude);
+            {#                        $('#hdnLatitude').val(41.837552);#}
+            {#                        $('#hdnLongitude').val(140.765535);#}
+        }
+
+        getLocation();
+    </script>
+</head>
+<body>
+<header class="header">
+    <div id="taxidashIcon"></div>
+    <h1 class="header_title">Taxi Dash</h1>
+    {% if not error_message %}
+        <a id="butTaxiList" href="{% url 'discover:taxiList' %}">Call a taxi</a>
+        <form id="header-form" action="{% url 'discover:organize' %}" method="post">
+            {% csrf_token %}
+            <button id="butAdd" class="headerButton" aria-label="Add" disabled="true"></button>
+            <input type="hidden" id="hdnLatitude" name="latitude">
+            <input type="hidden" id="hdnLongitude" name="longitude">
+        </form>
+    {% endif %}
+</header>
+
+<div class="loader">
+    <svg viewBox="0 0 32 32" width="32" height="32">
+        <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+    </svg>
+    <div class="wait-msg">Looking for nearby trips.</div>
+</div>
+
+<main class="main">
+    {% if error_message %}<p class="error"><strong>{{ error_message }}</strong></p>{% endif %}
+</main>
+
+<div class="dialog-container" id="join">
+    <div class="dialog">
+        <div class="dialog-title">Join a trip</div>
+        <form class="dialog-body" action="{% url 'discover:join' %}" method="post">
+            {% csrf_token %}
+            <div class="dialog-body">
+                <div class="dialog-form">
+                    <div id="lblPassenger">Your name</div>
+                    <input name="passenger" id="txtPassenger" type="text">
+                    <input name="trip_id" id="trip_id" type="hidden">
+                </div>
+                <div class="dialog-info">Do you want to join <span class="dialog-organizer"></span>'s group?</div>
+            </div>
+            <div class="dialog-buttons">
+                <input type="button" id="butCancel" class="button" value="Cancel"/>
+                <button type="submit" id="butJoin" class="button preferred">Join</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if ip %}
+    <script>console.log("{{ ip }}");</script>
+{% endif %}
+
+{% if redirect %}
+    <script>
+        console.log({{ redirect }});
+        window.setTimeout(function () {
+            window.location.href = "/discover/" + "{{ redirect }}" + "/detail/";
+        }, 3000);
+    </script>
+{% else %}
+    <script>
+        window.CSRF_TOKEN = "{{ csrf_token }}";
+
+        window.setTimeout(function () {
+            $.ajax({
+                type: 'post',
+                url: '/discover/refresh/',
+                data: {
+                    'latitude': $('#hdnLatitude').val(),
+                    'longitude': $('#hdnLongitude').val(),
+                    'csrfmiddlewaretoken': window.CSRF_TOKEN
+                },
+                success: function (data) {
+                    $(".main").append(data.trip_cards);
+                    $(".loader").css('visibility', 'hidden');
+                    $("#butAdd").prop("disabled", false);
+                    $("#butAdd").css("opacity", 1);
+                    console.log("SUCCESS");
+
+                    var app = {
+                        isLoading: true,
+                        visibleCards: {},
+                        location: [],
+                        spinner: document.querySelector('.loader'),
+                        cardTemplate: document.querySelector('.cardTemplate'),
+                        container: document.querySelector('.main'),
+                        addDialog: document.querySelector('.dialog-container')
+                    };
+
+                    var selectedTrip = "";
+
+                    //Add event listener for all cards
+                    trip_cards = $('.card');
+                    trip_cards.each(function (index) {
+                        $(this).on("click", function () {
+                            selectedTrip = $(this).attr('id');
+                            app.toggleAddDialog(true, $(this).find(".organizer").text(), selectedTrip);
+                        });
+                    });
+
+                    document.getElementById('butCancel').addEventListener('click', function () {
+                        // Close the add new city dialog
+                        app.toggleAddDialog(false);
+                    });
+
+                    app.toggleAddDialog = function (visible, organizer, trip_id) {
+                        if (visible) {
+                            $(".dialog-organizer").text(organizer);
+                            $("#trip_id").val(trip_id);
+
+                            if (sessionStorage.getItem('taxidash_user')) {
+                                $("#txtPassenger").val(sessionStorage.getItem('taxidash_user'));
+                            }
+
+                            $('#butJoin').on('click', function () {
+                                // Record name as cookie
+                                var passenger = $("#txtPassenger").val();
+                                if (!sessionStorage.getItem('taxidash_user')) {
+                                    sessionStorage.setItem('taxidash_user', passenger);
+                                } else if (sessionStorage.getItem('taxidash_user') !== passenger) {
+                                    sessionStorage.setItem('taxidash_user', passenger);
+                                }
+
+                                app.toggleAddDialog(false);
+                            });
+
+                            app.addDialog.classList.add('dialog-container--visible');
+                        } else {
+                            app.addDialog.classList.remove('dialog-container--visible');
+                        }
+                    };
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }, 6000);
+    </script>
+{% endif %}
+{#<script src="{% static 'discover/scripts/discover.js' %}"></script>#}
+</body>
+</html>
