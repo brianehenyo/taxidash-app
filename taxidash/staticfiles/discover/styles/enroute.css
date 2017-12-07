@@ -1,0 +1,153 @@
+/*
+ * Copyright 2016 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    padding: 16px 16px 16px 16px;
+    height: 72px;
+}
+
+.header .headerButton {
+    margin-right: 10px;
+    width: 50px;
+    color: rebeccapurple;
+    background-color: transparent;
+    border-color: rebeccapurple;
+    border-style: solid;
+    font-size: 12px;
+    height: 30px;
+}
+
+.header #taxidashIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background: url('../images/ic_taxi_24px.png') center center no-repeat;
+}
+
+.headerButton:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.list-msg {
+    margin-left: 15px;
+    margin-top: 10px;
+}
+
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    to {
+        -webkit-transform: rotate(450deg);
+        transform: rotate(450deg);
+    }
+}
+
+@keyframes rotate {
+    from {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    to {
+        -webkit-transform: rotate(450deg);
+        transform: rotate(450deg);
+    }
+}
+
+@-webkit-keyframes line {
+    0% {
+        stroke-dasharray: 2, 85.964;
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    50% {
+        stroke-dasharray: 65.973, 21.9911;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dasharray: 2, 85.964;
+        stroke-dashoffset: -65.973;
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes line {
+    0% {
+        stroke-dasharray: 2, 85.964;
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    50% {
+        stroke-dasharray: 65.973, 21.9911;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dasharray: 2, 85.964;
+        stroke-dashoffset: -65.973;
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+}
+
+.main {
+    padding-top: 76px;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.card {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.meetup-point {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row;
+    align-items: center;
+}
+
+.locpin {
+    width: 24px;
+    height: 24px;
+    background: url("../images/ic_locpin_24px.svg") center center no-repeat;
+}
+
+.label {
+    font-size: 12px;
+}
+
+.card {
+    padding: 5px 10px;
+    position: relative;
+    box-sizing: border-box;
+    background: #FFB356;
+    border-radius: 2px;
+    margin: 16px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
