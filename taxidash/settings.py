@@ -20,12 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+852ojo&6w!&w*ffvv8f+(sdhep1g#gqk)j13_%#q6p(r+npx='
+# SECRET_KEY = '+852ojo&6w!&w*ffvv8f+(sdhep1g#gqk)j13_%#q6p(r+npx='
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '+852ojo&6w!&w*ffvv8f+(sdhep1g#gqk)j13_%#q6p(r+npx=')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://taxidash.herokuapp.com','127.0.0.1']
 
 
 # Application definition
