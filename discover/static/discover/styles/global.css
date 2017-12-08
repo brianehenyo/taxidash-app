@@ -64,11 +64,11 @@ body {
 
 .header {
     width: 100%;
-    height: 56px;
+    height: 100px;
     color: #030303;
     background: #FFB356;
     position: fixed;
-    font-size: 20px;
+    font-size: 1.5em;
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 2px 9px 1px rgba(0, 0, 0, 0.12), 0 4px 2px -2px rgba(0, 0, 0, 0.2);
     padding: 16px 16px 0px 16px;
     will-change: transform;
@@ -105,7 +105,7 @@ body {
 
 .header_title {
     font-weight: 400;
-    font-size: 1em;
+    font-size: 48px;
     margin: 0;
     -webkit-box-flex: 1;
     -webkit-flex: 1;

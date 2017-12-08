@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'discover/styles/global.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'discover/styles/taxilist.css' %}">
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
 </head>
 <body>
 <header class="header">
@@ -26,7 +27,7 @@
                     <div class="compContact">{{ company.contact }}</div>
                 </div>
                 <div class="right">
-                    <button class="butCopy" aria-label="Copy" value="{{ company.contact }}">Copy</button>
+                    <button class="butCopy" aria-label="Copy" data-clipboard-text="{{ company.contact }}" value="{{ company.contact }}">Copy</button>
                 </div>
             </div>
         {% endfor %}
@@ -44,17 +45,32 @@
 </main>
 
 <script>
-    taxi_cards = $('.butCopy');
-    taxi_cards.each(function (index) {
-        $(this).on("click", function () {
-            selectedContact = $(this).val();
-            var $temp = $("<input>");
-            $("body").append($temp);
-            $temp.val(selectedContact);
-            $temp.select();
-            document.execCommand("copy");
-            $temp.remove();
-        });
+{#    taxi_cards = $('.butCopy');#}
+{#    taxi_cards.each(function (index) {#}
+{#        $(this).on("click", function () {#}
+{#            selectedContact = $(this).val();#}
+{#            var $temp = $("<input>");#}
+{#            $("body").append($temp);#}
+{#            $temp.val(selectedContact);#}
+{#            $temp.select();#}
+{#            document.execCommand("copy");#}
+{#            $temp.remove();#}
+{#        });#}
+{#    });#}
+
+    var clipboard = new Clipboard('.butCopy');
+
+    clipboard.on('success', function (e) {
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+
+        e.clearSelection();
+    });
+
+    clipboard.on('error', function (e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
     });
 </script>
 </body>
