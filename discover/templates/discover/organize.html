@@ -4,6 +4,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{%  static 'discover/images/favicon.ico' %}">
     <title>FUN Taxi Dash</title>
     <link rel="stylesheet" type="text/css" href="{% static 'discover/styles/global.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'discover/styles/organize.css' %}">
@@ -49,6 +51,12 @@
         </div>
     </form>
 </main>
+
+{% if nearby_meetups %}
+    <script>
+        $("#btnSubmit").prop("disabled", true);
+    </script>
+{% endif %}
 
 </body>
 </html>
