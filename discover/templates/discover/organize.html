@@ -52,7 +52,7 @@
     </form>
 </main>
 
-{% if nearby_meetups %}
+{% if not nearby_meetups %}
     <script>
         $("#btnSubmit").prop("disabled", true);
     </script>

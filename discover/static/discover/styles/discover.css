@@ -85,6 +85,10 @@
     opacity: 1;
 }
 
+.loader .wait-msg {
+    text-align: center;
+}
+
 .loader #spinner {
     box-sizing: border-box;
     stroke: #FFB356;
