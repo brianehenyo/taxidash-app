@@ -11,9 +11,15 @@
     cursor: pointer;
 }
 
+.header > form {
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 2px;
+    align-items: flex-start;
+}
+
 .header #butCancel {
     background: url('../images/ic_back_24px.svg') center center no-repeat;
-    /*find replacement svg. dame da :( */
 }
 
 .main {

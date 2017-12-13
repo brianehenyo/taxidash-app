@@ -1,5 +1,5 @@
 # TaxiDash
-Facilitating serendipitous matching for ride-sharing
+Facilitating taxi carpool group formation during harsh weather conditions.
 
 Contributions:
 - Development - Briane Samson

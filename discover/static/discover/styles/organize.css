@@ -34,7 +34,13 @@
 
 .header #butCancel {
     background: url('../images/ic_cancel_24px.svg') center center no-repeat;
-    /*find replacement svg. dame da :( */
+}
+
+.header > form {
+    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
 }
 
 .list-msg {

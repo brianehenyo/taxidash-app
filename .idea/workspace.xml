@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="98832dc7-9942-46bb-9396-a94dc9ec20c7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/discover/static/discover/styles/discover.css" afterPath="$PROJECT_DIR$/discover/static/discover/styles/discover.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/discover/static/discover/styles/global.css" afterPath="$PROJECT_DIR$/discover/static/discover/styles/global.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/discover/static/discover/styles/organize.css" afterPath="$PROJECT_DIR$/discover/static/discover/styles/organize.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/discover/static/discover/styles/taxilist.css" afterPath="$PROJECT_DIR$/discover/static/discover/styles/taxilist.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/discover/templates/discover/discover.html" afterPath="$PROJECT_DIR$/discover/templates/discover/discover.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/discover/templates/discover/enroute.html" afterPath="$PROJECT_DIR$/discover/templates/discover/enroute.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/discover/templates/discover/organize.html" afterPath="$PROJECT_DIR$/discover/templates/discover/organize.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/discover/templates/discover/taxilist.html" afterPath="$PROJECT_DIR$/discover/templates/discover/taxilist.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/discover/templates/discover/trip.html" afterPath="$PROJECT_DIR$/discover/templates/discover/trip.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,38 +21,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/discover/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="248" column="36" lean-forward="true" selection-start-line="248" selection-start-column="36" selection-end-line="248" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="organize.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/discover/templates/discover/organize.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
-              <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="discover.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/discover/templates/discover/discover.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="152" column="24" lean-forward="true" selection-start-line="152" selection-start-column="24" selection-end-line="152" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -82,21 +56,23 @@
         <option value="$PROJECT_DIR$/taxidash/settings.py" />
         <option value="$PROJECT_DIR$/discover/static/discover/scripts/discover.js" />
         <option value="$PROJECT_DIR$/discover/urls.py" />
-        <option value="$PROJECT_DIR$/discover/static/discover/styles/taxilist.css" />
         <option value="$PROJECT_DIR$/discover/static/discover/styles/enroute.css" />
         <option value="$PROJECT_DIR$/discover/static/discover/styles/trip.css" />
         <option value="$PROJECT_DIR$/discover/models.py" />
         <option value="$PROJECT_DIR$/discover/admin.py" />
         <option value="$PROJECT_DIR$/discover/templates/discover/tripcards.html" />
         <option value="$PROJECT_DIR$/discover/views.py" />
-        <option value="$PROJECT_DIR$/discover/static/discover/styles/global.css" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/discover/static/discover/styles/taxilist.css" />
+        <option value="$PROJECT_DIR$/discover/static/discover/styles/discover.css" />
+        <option value="$PROJECT_DIR$/discover/static/discover/styles/organize.css" />
+        <option value="$PROJECT_DIR$/discover/templates/discover/discover.html" />
+        <option value="$PROJECT_DIR$/discover/templates/discover/global_footer.html" />
+        <option value="$PROJECT_DIR$/discover/templates/discover/organize.html" />
         <option value="$PROJECT_DIR$/discover/templates/discover/enroute.html" />
         <option value="$PROJECT_DIR$/discover/templates/discover/taxilist.html" />
         <option value="$PROJECT_DIR$/discover/templates/discover/trip.html" />
-        <option value="$PROJECT_DIR$/discover/static/discover/styles/organize.css" />
-        <option value="$PROJECT_DIR$/discover/templates/discover/organize.html" />
-        <option value="$PROJECT_DIR$/discover/templates/discover/discover.html" />
-        <option value="$PROJECT_DIR$/discover/static/discover/styles/discover.css" />
+        <option value="$PROJECT_DIR$/discover/static/discover/styles/global.css" />
       </list>
     </option>
   </component>
@@ -107,8 +83,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="39" />
-    <option name="y" value="23" />
+    <option name="x" value="239" />
+    <option name="y" value="-841" />
     <option name="width" value="1400" />
     <option name="height" value="776" />
   </component>
@@ -130,7 +106,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -194,7 +170,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -262,10 +238,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="39" y="23" width="1400" height="776" extended-state="0" />
-    <editor active="true" />
+    <frame x="239" y="-841" width="1400" height="776" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21357143" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21357143" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -297,6 +272,30 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/discover/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3720">
+          <caret line="248" column="36" lean-forward="true" selection-start-line="248" selection-start-column="36" selection-end-line="248" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/templates/discover/organize.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="885">
+          <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/templates/discover/discover.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2280">
+          <caret line="152" column="24" lean-forward="true" selection-start-line="152" selection-start-column="24" selection-end-line="152" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/discover/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -531,17 +530,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/discover/static/discover/styles/taxilist.css">
+    <entry file="file://$PROJECT_DIR$/discover/static/discover/images/favicon.ico">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="68" column="16" lean-forward="true" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="16" />
+        <state relative-caret-position="75">
+          <caret line="5" column="50" lean-forward="true" selection-start-line="5" selection-start-column="50" selection-end-line="5" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/discover/views.py">
+    <entry file="file://$PROJECT_DIR$/discover/static/discover/styles/taxilist.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="248" column="36" lean-forward="true" selection-start-line="248" selection-start-column="36" selection-end-line="248" selection-end-column="36" />
+        <state relative-caret-position="-573">
+          <caret line="20" column="20" lean-forward="true" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/static/discover/styles/organize.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="27" column="20" lean-forward="true" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -554,71 +567,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/discover/static/discover/images/favicon.ico">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/discover/static/discover/styles/global.css">
+    <entry file="file://$PROJECT_DIR$/discover/templates/discover/global_footer.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1605">
-          <caret line="107" column="16" lean-forward="false" selection-start-line="107" selection-start-column="16" selection-end-line="107" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/discover/templates/discover/enroute.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="81" lean-forward="false" selection-start-line="7" selection-start-column="81" selection-end-line="7" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/discover/templates/discover/taxilist.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="81" lean-forward="false" selection-start-line="7" selection-start-column="81" selection-end-line="7" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/discover/templates/discover/trip.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="20" column="18" lean-forward="true" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/discover/static/discover/styles/organize.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="181" column="0" lean-forward="true" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/discover/templates/discover/organize.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/discover/static/discover/styles/discover.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+        <state relative-caret-position="30">
+          <caret line="2" column="9" lean-forward="true" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/discover/templates/discover/discover.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="152" column="24" lean-forward="true" selection-start-line="152" selection-start-column="24" selection-end-line="152" selection-end-column="24" />
+        <state relative-caret-position="537">
+          <caret line="191" column="0" lean-forward="false" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/templates/discover/enroute.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/templates/discover/taxilist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="78" column="43" lean-forward="false" selection-start-line="78" selection-start-column="43" selection-end-line="78" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/templates/discover/trip.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/templates/discover/organize.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="57" column="13" lean-forward="true" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/static/discover/styles/discover.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="14" lean-forward="true" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/static/discover/styles/global.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="46" column="27" lean-forward="true" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/discover/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
           <folding />
         </state>
       </provider>
