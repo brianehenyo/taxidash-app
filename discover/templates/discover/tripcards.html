@@ -1,23 +1,63 @@
-{% if trips %}
-    <div class="list-msg">Here are the trips near you:</div>
-    {#        {% include 'discover/triplist.html' %}#}
-    {% for trip in trips %}
-        <div class="card cardTemplate trip" id="{{ trip.id }}">
-            <div class="left">
-                <div class="organizer label">{{ trip.organizer }}</div>
-                <div class="meetup-point">
-                    <div class="locpin"></div>
-                    <div class="location">{{ trip.meetup_pt }}</div>
+<div class="list-msg">
+    <span>There are {{ trips | length }} trip(s) near you.</span>
+    <span>Would you like to start or join a taxi group?</span>
+
+    {% if trips %}
+        <form class="user-details" action="{% url 'discover:join' %}" method="post">
+            {% csrf_token %}
+            <div class="dialog-body">
+                <div class="dialog-form">
+                    <div id="lblPassenger">Handle name</div>
+                    <input name="passenger" id="txtPassenger" type="text">
+                    <div id="lblPassenger">Email</div>
+                    <input name="email" id="txtEmail" type="email">
+
+                    {% for trip in trips %}
+                        <input name="trip_id" id="trip_id" type="hidden" value="{{ trip.id }}">
+                        <input name="trip_long" id="trip_long" type="hidden" value="{{ trip.longitude }}">
+                        <input name="trip_lat" id="trip_lat" type="hidden" value="{{ trip.latitude }}">
+                        <!-- <div class="card cardTemplate trip" id="{{ trip.id }}">
+                            <div class="left">
+                                <div class="organizer label">{{ trip.organizer }}</div>
+                                <div class="meetup-point">
+                                    <div class="locpin"></div>
+                                    <div class="location">{{ trip.longitude }}, {{ trip.latitude }}</div>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="label">Available seats</div>
+                                <div class="seats">
+                                    <span class="available">{{ trip.avail_passengers }}</span><span class="maxSeats">/4人</span>
+                                </div>
+                            </div>
+                        </div> -->
+                        {{ break }}
+                    {% endfor %}
                 </div>
             </div>
-            <div class="right">
-                <div class="label">Available seats</div>
-                <div class="seats">
-                    <span class="available">{{ trip.avail_passengers }}</span><span class="maxSeats">/4人</span>
+            <div class="dialog-buttons">
+                <button type="submit" id="butJoin" class="button preferred">Join Taxi Group</button>
+            </div>
+            {% csrf_token %}
+        </form>
+    {% else %}
+        <form class="user-details" action="{% url 'discover:createTrip' %}" method="post">
+            {% csrf_token %}
+            <div class="dialog-body">
+                <div class="dialog-form">
+                    <div id="lblOrganizer">Handle name</div>
+                    <input name="organizer" id="txtOrganizer" type="text">
+                    <div id="lblPassenger">Email</div>
+                    <input name="email" id="txtEmail" type="email">
+
+                    <input name="longitude" id="trip_long" type="hidden">
+                    <input name="latitude" id="trip_lat" type="hidden">
                 </div>
             </div>
-        </div>
-    {% endfor %}
-{% else %}
-    <div class="list-msg">There are 0 trips nearby. Press the (+) icon to organize a new one.</div>
-{% endif %}
+            <div class="dialog-buttons">
+                <button type="submit" id="butJoin" class="button preferred">Create Taxi Group</button>
+            </div>
+            {% csrf_token %}
+        </form>
+    {% endif %}
+</div>

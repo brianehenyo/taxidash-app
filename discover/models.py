@@ -19,8 +19,10 @@ class Trip(models.Model):
         (CANCELLED, "Cancelled"),
         (ENROUTE, "En Route")
     )
-    meetup_pt = models.ForeignKey(Meetup, on_delete=models.CASCADE)
+    # meetup_pt = models.ForeignKey(Meetup, on_delete=models.CASCADE)
     organizer = models.CharField(max_length=200)
+    latitude = models.FloatField('Latitude', blank=True, null=True, default=41.8415321)
+    longitude = models.FloatField('Longitude', blank=True, null=True, default=140.7668693)
     date = models.DateTimeField('date organized', default=datetime.now)
     status = models.CharField(max_length=3, choices=STATUS_CHOICE, default=ACTIVE)
 
@@ -30,6 +32,7 @@ class Trip(models.Model):
 class Passenger(models.Model):
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
+    email = models.CharField(max_length=200, default='default@sumilab.org')
     ip = models.CharField('IP', max_length=15, default='127.0.0.1')
     latitude = models.FloatField('Latitude', blank=True, null=True, default=41.8415321)
     longitude = models.FloatField('Longitude', blank=True, null=True, default=140.7668693)
@@ -43,3 +46,10 @@ class TaxiCompany(models.Model):
 
     def __str__(self):
         return self.name
+
+class Log(models.Model):
+    date = models.DateTimeField('date', default=datetime.now)
+    activity = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return self.activity

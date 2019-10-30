@@ -14,16 +14,22 @@
 <header class="header">
     {% if trip %}
         <div class="left">
-            <div class="organizer label">{{ trip.organizer }}</div>
-            <div class="meetup-point">
+            <div class="organizer label">Trip of {{ trip.organizer }}</div>
+            <!-- <div class="meetup-point">
                 <div class="locpin"></div>
                 <div class="location">{{ trip.meetup_pt }}</div>
-            </div>
+            </div> -->
         </div>
-        <div>
-            <form action="{% url 'discover:leave' %}" method="post">
+        <div class="right">
+            <form class="trip-btns" action="{% url 'discover:leave' %}" method="post">
                 {% csrf_token %}
                 <button id="butLeave" class="headerButton" aria-label="Leave">Leave</button>
+                <input type="hidden" id="hdnTripID" name="trip_id" value="{{ trip.id }}">
+            </form>
+            <form class="trip-btns" action="{% url 'discover:enroute' %}" method="post">
+                {% csrf_token %}
+                <!-- <a id="butTaxiList" href="{% url 'discover:taxiList' %}">Call a taxi</a> -->
+                <button type="submit" id="butEnroute" class="headerButton">Start trip</button>
                 <input type="hidden" id="hdnTripID" name="trip_id" value="{{ trip.id }}">
             </form>
         </div>
@@ -38,11 +44,12 @@
         <p class="error"><strong>{{ error_message }}</strong></p>
     {% else %}
         {% if passengers %}
-            <div class="list-msg">{{ passengers|length }}/4 Passengers:</div>
+            <div class="list-msg">{{ passengers|length }}/4 Passengers:
             {% for passenger in passengers %}
-                <div class="card cardTemplate passenger">{{ passenger.name }}</div>
+                <span class="card cardTemplate passenger">{{ passenger.name }}</span>
             {% endfor %}
-
+            </div>
+<!-- 
             <div>
                 <form id="detail-actions" action="{% url 'discover:enroute' %}" method="post">
                     {% csrf_token %}
@@ -50,10 +57,16 @@
                     <button type="submit" id="butEnroute" class="button preferred">Start trip</button>
                     <input type="hidden" id="hdnTripID" name="trip_id" value="{{ trip.id }}">
                 </form>
-            </div>
+            </div> -->
         {% else %}
             <div class="list-msg">There are 0 passengers.</div>
         {% endif %}
+        <div class="chat-container">
+
+        </div>
+        <div class="chat-entry">
+            
+        </div>
     {% endif %}
 </main>
 

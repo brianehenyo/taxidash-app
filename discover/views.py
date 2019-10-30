@@ -10,6 +10,8 @@ from django.db.models import Count
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 
+from django.template import RequestContext
+
 MAX_PASSENGERS = 4
 ALLOWABLE_DIST = 0.4
 
@@ -53,14 +55,18 @@ def refreshtrips(request):
 
     rough_distance = units.degrees(arcminutes=units.nautical(kilometers=distance_range)) * 2
 
-    all_trips = Trip.objects.filter(date__date=timezone.now() + timedelta(hours=9), status='ACT', meetup_pt__latitude__range=(lat - rough_distance, lat + rough_distance), meetup_pt__longitude__range=(long - rough_distance, long + rough_distance)).annotate(avail_passengers=MAX_PASSENGERS - Count('passenger')).filter(avail_passengers__lte=4, avail_passengers__gt=0).order_by('avail_passengers')
+    # all_trips = Trip.objects.filter(date__date=timezone.now() + timedelta(hours=9), status='ACT', meetup_pt__latitude__range=(lat - rough_distance, lat + rough_distance), meetup_pt__longitude__range=(long - rough_distance, long + rough_distance)).annotate(avail_passengers=MAX_PASSENGERS - Count('passenger')).filter(avail_passengers__lte=4, avail_passengers__gt=0).order_by('avail_passengers')
+
+    all_trips = Trip.objects.filter(date__date=timezone.now() + timedelta(hours=9), status='ACT', latitude__range=(lat - rough_distance, lat + rough_distance), longitude__range=(long - rough_distance, long + rough_distance)).annotate(avail_passengers=MAX_PASSENGERS - Count('passenger')).filter(avail_passengers__lte=4, avail_passengers__gt=0).order_by('avail_passengers')
+
+    # all_trips = Trip.objects.filter(status='ACT', latitude__range=(lat - rough_distance, lat + rough_distance), longitude__range=(long - rough_distance, long + rough_distance)).annotate(avail_passengers=MAX_PASSENGERS - Count('passenger')).filter(avail_passengers__lte=4, avail_passengers__gt=0).order_by('avail_passengers')
 
     nearby = []
     for trip in all_trips:
-        if trip.meetup_pt.latitude and trip.meetup_pt.longitude:
+        if trip.latitude and trip.longitude:
             exact_distance = distance.distance(
                 (lat, long),
-                (trip.meetup_pt.latitude, trip.meetup_pt.longitude)
+                (trip.latitude, trip.longitude)
             ).kilometers
 
             if exact_distance <= distance_range:
@@ -69,8 +75,13 @@ def refreshtrips(request):
 
     sorted(nearby, key=lambda m: m.distance)
 
-    trip_cards = loader.render_to_string('discover/tripcards.html', {'trips': nearby})
-    output_data = {'trip_cards': trip_cards}
+    closest = []
+    if len(nearby) > 0:
+        closest.append({"id": nearby[0].id, "latitude": nearby[0].latitude, "longitude": nearby[0].longitude})
+
+    # trip_cards = loader.render_to_string('discover/tripcards.html', {'trips': nearby})
+    # output_data = {'trip_cards': trip_cards}
+    output_data = {'trips': closest}
     return JsonResponse(output_data)
 
 
@@ -157,7 +168,7 @@ def detail(request, trip_id):
 
 def join(request):
     trip_id = request.POST.get('trip_id')
-    passenger = request.POST.get('passenger')
+    passenger = request.POST.get('organizer')
     passenger = passenger.strip(' ')
 
     if len(passenger) == 0:
@@ -245,8 +256,10 @@ def organize(request):
 
 def createTrip(request):
     organizer = request.POST.get('organizer')
-    selected_meetup = request.POST.get('choice')
+    email = request.POST.get('email')
+    # selected_meetup = request.POST.get('choice')
     organizer = organizer.strip(' ')
+    email = email.strip(' ')
 
     latitude = request.session['latitude']
     longitude = request.session['longitude']
@@ -254,44 +267,61 @@ def createTrip(request):
     lat = float(latitude)
     long = float(longitude)
 
-    if len(organizer) == 0:
-        distance_range = float(ALLOWABLE_DIST)
+    new_trip = Trip(organizer=organizer, latitude=lat, longitude=long, date=timezone.now() + timedelta(hours=9))
+    new_trip.save()
 
-        rough_distance = units.degrees(arcminutes=units.nautical(kilometers=distance_range)) * 2
+    ip = request.session['host_ip']
+    new_passenger = Passenger(trip=new_trip, name=organizer, email=email, ip=ip, latitude=lat, longitude=long)
+    new_passenger.save()
 
-        all_meetup_pts = Meetup.objects.filter(latitude__range=(lat - rough_distance, lat + rough_distance),
-                                               longitude__range=(long - rough_distance, long + rough_distance))
+    request.session['joined_trip'] = new_trip.id
+    request.session['passenger'] = organizer
+    request.session['passengerID'] = new_passenger.id
 
-        nearby = []
-        for meetup_pt in all_meetup_pts:
-            if meetup_pt.latitude and meetup_pt.longitude:
-                exact_distance = distance.distance(
-                    (lat, long),
-                    (meetup_pt.latitude, meetup_pt.longitude)
-                ).kilometers
+    return HttpResponseRedirect(reverse('discover:detail', args=(new_trip.id,)))
 
-                if exact_distance <= distance_range:
-                    meetup_pt.distance = exact_distance
-                    nearby.append(meetup_pt)
+    # if len(organizer) == 0 | len(email) == 0:
+        # distance_range = float(ALLOWABLE_DIST)
 
-        sorted(nearby, key=lambda m: m.distance)
+        # rough_distance = units.degrees(arcminutes=units.nautical(kilometers=distance_range)) * 2
 
-        context = {'nearby_meetups': nearby,
-                   'error_message': "You did not enter a name. Please type your name or nickname."}
+        # all_meetup_pts = Meetup.objects.filter(latitude__range=(lat - rough_distance, lat + rough_distance),
+        #                                        longitude__range=(long - rough_distance, long + rough_distance))
 
-        return render(request, 'discover/organize.html', context)
-    else:
-        new_meetup = get_object_or_404(Meetup, pk=selected_meetup)
+        # nearby = []
+        # for meetup_pt in all_meetup_pts:
+        #     if meetup_pt.latitude and meetup_pt.longitude:
+        #         exact_distance = distance.distance(
+        #             (lat, long),
+        #             (meetup_pt.latitude, meetup_pt.longitude)
+        #         ).kilometers
 
-        new_trip = Trip(meetup_pt=new_meetup, organizer=organizer, date=timezone.now() + timedelta(hours=9))
-        new_trip.save()
+        #         if exact_distance <= distance_range:
+        #             meetup_pt.distance = exact_distance
+        #             nearby.append(meetup_pt)
 
-        ip = request.session['host_ip']
-        new_passenger = Passenger(trip=new_trip, name=organizer, ip=ip, latitude=lat, longitude=long)
-        new_passenger.save()
+        # all_trips = Trip.objects.filter(date__date=timezone.now() + timedelta(hours=9), status='ACT', latitude__range=(lat - rough_distance, lat + rough_distance), longitude__range=(long - rough_distance, long + rough_distance)).annotate(avail_passengers=MAX_PASSENGERS - Count('passenger')).filter(avail_passengers__lte=4, avail_passengers__gt=0).order_by('avail_passengers')
 
-        request.session['joined_trip'] = new_trip.id
-        request.session['passenger'] = organizer
-        request.session['passengerID'] = new_passenger.id
+        # nearby = []
+        # for trip in all_trips:
+        #     if trip.latitude and trip.longitude:
+        #         exact_distance = distance.distance(
+        #             (lat, long),
+        #             (trip.latitude, trip.longitude)
+        #         ).kilometers
 
-        return HttpResponseRedirect(reverse('discover:detail', args=(new_trip.id,)))
+        #         if exact_distance <= distance_range:
+        #             trip.distance = exact_distance
+        #             nearby.append(trip)
+
+        # sorted(nearby, key=lambda m: m.distance)
+
+        # context = {'trips': nearby,
+        #            'error_message': "You did not enter a handle name and/or email. Please type your name or nickname, and an email."}
+
+        # context = {'error_message': "You did not enter a handle name and/or email. Please type your name or nickname, and an email."}
+
+        # return render(request, 'discover/organize.html', context)
+        # return render(request, 'discover/discover.html', context)
+    # else:
+        # new_meetup = get_object_or_404(Meetup, pk=selected_meetup)

@@ -116,6 +116,7 @@ body {
 .error {
     color: orangered;
     margin: 5px 15px 10px;
+    display: none;
 }
 
 .footer {

@@ -25,7 +25,6 @@
 
             function getTrips() {
                 window.CSRF_TOKEN = "{{ csrf_token }}";
-
                 $.ajax({
                     type: 'post',
                     url: '/discover/refresh/',
@@ -35,64 +34,221 @@
                         'csrfmiddlewaretoken': window.CSRF_TOKEN
                     },
                     success: function (data) {
-                        $(".main").append(data.trip_cards);
-                        $(".loader").css('visibility', 'hidden');
-                        $("#butAdd").prop("disabled", false);
-                        $("#butAdd").css("opacity", 1);
-                        console.log("SUCCESS");
+                        // $(".main").append(data.trip_cards);
+                        console.log(data.trips);
+                        $("#avail-trips-num").text(data.trips.length);
+                        if (data.trips.length > 0) {
+                            $("#start-or-join").text("join");
+                            document.getElementById("user-details").setAttribute("action", "{% url 'discover:join' %}");
+                            $('#trip_id').val(data.trips[0]["id"]);
+                            $('#trip_lat').val(data.trips[0]["latitude"]);
+                            $('#trip_long').val(data.trips[0]["longitude"]);
+                            $("#butJoin").text("Join a Taxi Group");
+                        }
+                        else {
+                            $("#start-or-join").text("start");
+                            document.getElementById("user-details").setAttribute("action", "{% url 'discover:createTrip' %}");
+                            $("#butJoin").text("Create a Taxi Group");
+                            $('#trip_id').val(-1);
+                            $('#trip_lat').val($('#hdnLatitude').val());
+                            $('#trip_long').val($('#hdnLongitude').val());
+                        }
 
-                        var app = {
-                            isLoading: true,
-                            visibleCards: {},
-                            location: [],
-                            spinner: document.querySelector('.loader'),
-                            cardTemplate: document.querySelector('.cardTemplate'),
-                            container: document.querySelector('.main'),
-                            addDialog: document.querySelector('.dialog-container')
-                        };
+                        if (sessionStorage.getItem('taxidash_user')) {
+                            $("#txtOrganizer").val(sessionStorage.getItem('taxidash_user'));
+                        }
 
-                        var selectedTrip = "";
+                        if (sessionStorage.getItem('taxidash_email')) {
+                            $("#txtEmail").val(sessionStorage.getItem('taxidash_email'));
+                        }
 
-                        //Add event listener for all cards
-                        trip_cards = $('.card');
-                        trip_cards.each(function (index) {
-                            $(this).on("click", function () {
-                                selectedTrip = $(this).attr('id');
-                                app.toggleAddDialog(true, $(this).find(".organizer").text(), selectedTrip);
-                            });
-                        });
+                        // Validate form fields
+                        const emailField = document.getElementById('txtEmail');
+                        const organizerField = document.getElementById('txtOrganizer');
+                        const submitBtn = document.getElementById('butJoin');
 
-                        document.getElementById('butCancel').addEventListener('click', function () {
-                            // Close the add new city dialog
-                            app.toggleAddDialog(false);
-                        });
+                        // userForm.addEventListener('submit', evt => {
+                        //     evt.preventDefault();
 
-                        app.toggleAddDialog = function (visible, organizer, trip_id) {
-                            if (visible) {
-                                $(".dialog-organizer").text(organizer);
-                                $("#trip_id").val(trip_id);
+                        //     isValidEmail = emailField.checkValidity();
+                        //     const value = organizerField.value;
+                        //     var trimmed = '';
 
-                                if (sessionStorage.getItem('taxidash_user')) {
-                                    $("#txtPassenger").val(sessionStorage.getItem('taxidash_user'));
-                                }
+                        //     if (!value) {
+                        //         organizerField.dataset.state = 'invalid';
+                        //     } else {
+                        //         trimmed = value.trim();
+                        //     }
 
-                                $('#butJoin').on('click', function () {
-                                    // Record name as cookie
-                                    var passenger = $("#txtPassenger").val();
-                                    if (!sessionStorage.getItem('taxidash_user')) {
-                                        sessionStorage.setItem('taxidash_user', passenger);
-                                    } else if (sessionStorage.getItem('taxidash_user') !== passenger) {
-                                        sessionStorage.setItem('taxidash_user', passenger);
-                                    }
+                        //     if( isValidEmail && trimmed ) {
+                        //         userForm.submit();
+                        //     } else {
+                        //         evt.preventDefault();
+                        //     }
+                        // });
 
-                                    app.toggleAddDialog(false);
-                                });
+                        $('#butJoin').on('click', function () {
+                            // Record name and email as cookie
+                            var passenger = $("#txtOrganizer").val();
+                            var email = $("#txtEmail").val();
 
-                                app.addDialog.classList.add('dialog-container--visible');
-                            } else {
-                                app.addDialog.classList.remove('dialog-container--visible');
+                            if (!sessionStorage.getItem('taxidash_user')) {
+                                sessionStorage.setItem('taxidash_user', passenger);
+                            } else if (sessionStorage.getItem('taxidash_user') !== passenger) {
+                                sessionStorage.setItem('taxidash_user', passenger);
                             }
-                        };
+
+                            if (!sessionStorage.getItem('taxidash_email')) {
+                                sessionStorage.setItem('taxidash_email', email);
+                            } else if (sessionStorage.getItem('taxidash_email') !== email) {
+                                sessionStorage.setItem('taxidash_email', email);
+                            }
+                        });
+                        
+                        emailField.addEventListener('keyup', evt => {
+                            isValidEmail = emailField.checkValidity();
+                            var emailVal = emailField.value;
+                            var value = organizerField.value;
+
+                            if (!value) {
+                                organizerField.dataset.state = 'invalid';
+                            } else {
+                                value = value.trim();
+                                if(value) {
+                                    organizerField.dataset.state = 'valid';
+                                }
+                                else {
+                                    organizerField.dataset.state = 'invalid';
+                                }
+                            }
+
+                            if (!emailVal) {
+                                emailField.dataset.state = 'invalid';
+                            } else {
+                                if (isValidEmail) {
+                                    emailVal = emailVal.trim();
+
+                                    if(emailVal) {
+                                        emailField.dataset.state = 'valid';
+                                    }
+                                    else {
+                                        emailField.dataset.state = 'invalid';
+                                    }
+                                } else {
+                                    emailField.dataset.state = 'invalid';
+                                }
+                            }
+                            
+                            if ( isValidEmail && value && emailVal ) {
+                                submitBtn.disabled = false;
+                                submitBtn.classList.add('submitBtn--enabled');
+                            } else {
+                                submitBtn.disabled = true;
+                                submitBtn.classList.remove('submitBtn--enabled');
+                            }
+                        });
+
+                        organizerField.addEventListener('keyup', evt => {
+                            isValidEmail = emailField.checkValidity();
+                            var emailVal = emailField.value;
+                            var value = organizerField.value;
+
+                            if (!value) {
+                                organizerField.dataset.state = 'invalid';
+                            } else {
+                                value = value.trim();
+                                if(value) {
+                                    organizerField.dataset.state = 'valid';
+                                }
+                                else {
+                                    organizerField.dataset.state = 'invalid';
+                                }
+                            }
+
+                            if (!emailVal) {
+                                emailField.dataset.state = 'invalid';
+                            } else {
+                                if (isValidEmail) {
+                                    emailVal = emailVal.trim();
+
+                                    if(emailVal) {
+                                        emailField.dataset.state = 'valid';
+                                    }
+                                    else {
+                                        emailField.dataset.state = 'invalid';
+                                    }
+                                } else {
+                                    emailField.dataset.state = 'invalid';
+                                }
+                            }
+                            
+                            if ( isValidEmail && value && emailVal ) {
+                                submitBtn.disabled = false;
+                                submitBtn.classList.add('submitBtn--enabled');
+                            } else {
+                                submitBtn.disabled = true;
+                                submitBtn.classList.remove('submitBtn--enabled');
+                            }
+                        });
+
+                        $(".loader").css('visibility', 'hidden');
+                        $(".list-msg").css('visibility', 'visible');
+                        // $("#butAdd").prop("disabled", false);
+                        // $("#butAdd").css("opacity", 1);
+                        // console.log("SUCCESS");
+
+                        // var app = {
+                        //     isLoading: true,
+                        //     visibleCards: {},
+                        //     location: [],
+                        //     spinner: document.querySelector('.loader'),
+                        //     cardTemplate: document.querySelector('.cardTemplate'),
+                        //     container: document.querySelector('.main'),
+                        //     addDialog: document.querySelector('.dialog-container')
+                        // };
+
+                        // var selectedTrip = "";
+
+                        // //Add event listener for all cards
+                        // trip_cards = $('.card');
+                        // trip_cards.each(function (index) {
+                        //     $(this).on("click", function () {
+                        //         selectedTrip = $(this).attr('id');
+                        //         app.toggleAddDialog(true, $(this).find(".organizer").text(), selectedTrip);
+                        //     });
+                        // });
+
+                        // document.getElementById('butCancel').addEventListener('click', function () {
+                        //     // Close the add new city dialog
+                        //     app.toggleAddDialog(false);
+                        // });
+
+                        // app.toggleAddDialog = function (visible, organizer, trip_id) {
+                        //     if (visible) {
+                        //         $(".dialog-organizer").text(organizer);
+                        //         $("#trip_id").val(trip_id);
+
+                        //         if (sessionStorage.getItem('taxidash_user')) {
+                        //             $("#txtPassenger").val(sessionStorage.getItem('taxidash_user'));
+                        //         }
+
+                        //         $('#butJoin').on('click', function () {
+                        //             // Record name as cookie
+                        //             var passenger = $("#txtPassenger").val();
+                        //             if (!sessionStorage.getItem('taxidash_user')) {
+                        //                 sessionStorage.setItem('taxidash_user', passenger);
+                        //             } else if (sessionStorage.getItem('taxidash_user') !== passenger) {
+                        //                 sessionStorage.setItem('taxidash_user', passenger);
+                        //             }
+
+                        //             app.toggleAddDialog(false);
+                        //         });
+
+                        //         app.addDialog.classList.add('dialog-container--visible');
+                        //     } else {
+                        //         app.addDialog.classList.remove('dialog-container--visible');
+                        //     }
+                        // };
                     },
                     error: function (xhr, status, error) {
                         console.log(error);
@@ -101,13 +257,16 @@
             }
 
             function showPosition(position) {
-                console.log(position.coords.latitude);
-                console.log(position.coords.longitude);
+                // Get latlong from browser
                 $('#hdnLatitude').val(position.coords.latitude);
                 $('#hdnLongitude').val(position.coords.longitude);
+                // $('#hdnLatitude').val(41.837552);
+                // $('#hdnLongitude').val(140.765535);
+                // $('#hdnLatitude').val(41.811968);
+                // $('#hdnLongitude').val(140.7574016);
+
+                // Get nearby organized trips=
                 getTrips();
-                {#                        $('#hdnLatitude').val(41.837552);#}
-                {#                        $('#hdnLongitude').val(140.765535);#}
             }
 
             function showError(error) {
@@ -129,7 +288,7 @@
         <a id="butTaxiList" href="{% url 'discover:taxiList' %}">Call a taxi</a>
         <form id="header-form" action="{% url 'discover:organize' %}" method="post">
             {% csrf_token %}
-            <button id="butAdd" class="headerButton" aria-label="Add" disabled="true"></button>
+            <!-- <button id="butAdd" class="headerButton" aria-label="Add" disabled="true"></button> -->
             <input type="hidden" id="hdnLatitude" name="latitude">
             <input type="hidden" id="hdnLongitude" name="longitude">
         </form>
@@ -146,18 +305,45 @@
 {% endif %}
 
 <main class="main">
-    {% if error_message %}<p class="error"><strong>{{ error_message }}</strong></p>{% endif %}
+    <div class="list-msg">
+        <span>There are <span id="avail-trips-num"></span> trip(s) near you.</span>
+        <span>Would you like to <span id="start-or-join"></span> a taxi group?</span>
+
+        <p class="error" id="error">Hello</p>
+    
+        <form class="user-details" id="user-details" action="{% url 'discover:createTrip' %}" method="post">
+            {% csrf_token %}
+            <div class="dialog-body">
+                <div class="dialog-form">
+                    <div id="lblOrganizer">Handle name</div>
+                    <input name="organizer" id="txtOrganizer" type="text">
+                    <div id="lblEmail">Email</div>
+                    <input name="email" id="txtEmail" type="email">
+    
+                    <input name="trip_id" id="trip_id" type="hidden">
+                    <input name="longitude" id="trip_long" type="hidden">
+                    <input name="latitude" id="trip_lat" type="hidden">
+                </div>
+            </div>
+            <div class="dialog-buttons">
+                <button type="submit" id="butJoin" class="button preferred" disabled></button>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
 </main>
 
-<div class="dialog-container" id="join">
+<!-- <div class="dialog-container" id="join">
     <div class="dialog">
         <div class="dialog-title">Join a trip</div>
         <form class="dialog-body" action="{% url 'discover:join' %}" method="post">
             {% csrf_token %}
             <div class="dialog-body">
                 <div class="dialog-form">
-                    <div id="lblPassenger">Your name</div>
+                    <div id="lblPassenger">Handle name</div>
                     <input name="passenger" id="txtPassenger" type="text">
+                    <div id="lblPassenger">Email</div>
+                    <input name="email" id="txtEmail" type="email">
                     <input name="trip_id" id="trip_id" type="hidden">
                 </div>
                 <div class="dialog-info">Do you want to join <span class="dialog-organizer"></span>'s group?</div>
@@ -168,7 +354,7 @@
             </div>
         </form>
     </div>
-</div>
+</div> -->
 
 {% if ip %}
     <script>console.log("{{ ip }}");</script>
@@ -176,17 +362,16 @@
 
 {% if redirect %}
     <script>
-        console.log({{ redirect }});
         window.setTimeout(function () {
             window.location.href = "/discover/" + "{{ redirect }}" + "/detail/";
         }, 3000);
     </script>
-    {#{% else %}#}
-    {#    <script>#}
-    {#        window.setTimeout(function () {#}
-    {#            getTrips();#}
-    {#        }, 6000);#}
-    {#    </script>#}
+{% else %}
+    <!-- <script>
+        window.setTimeout(function () {
+            getTrips();
+        }, 6000);
+    </script> -->
 {% endif %}
 {#<script src="{% static 'discover/scripts/discover.js' %}"></script>#}
 {% include 'discover/global_footer.html' %}

@@ -57,15 +57,15 @@
 }
 
 .header #header-form {
-    width: 24px;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
+    /* width: 24px; */
+    display: none;
 }
 
 .list-msg {
-    margin-left: 15px;
-    margin-top: 10px;
+    margin: 10px 15px 10px 15px;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
 }
 
 .loader {
@@ -155,6 +155,7 @@
 }
 
 .main {
+    visibility: hidden;
     padding-top: 60px;
     -webkit-box-flex: 1;
     -webkit-flex: 1;
@@ -169,6 +170,12 @@
     display: flex;
     flex-flow: row;
     justify-content: space-between;
+}
+
+.card.new {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 }
 
 .card:hover {
@@ -264,6 +271,7 @@
     background-color: rebeccapurple;
     border-color: rebeccapurple;
     color: #FFFFFF;
+    opacity: .5;
 }
 
 input[id*="Cancel"] {
@@ -285,4 +293,28 @@ input[id*="Cancel"] {
 
 .dialog-info {
     margin-top: 10px;
+}
+
+/* #txtEmail:valid {
+    border-color: black;
+    border-width: 1px;
+}
+
+#txtEmail:invalid {
+    border-color: red;
+    border-width: 2px;
+} */
+
+input[data-state="invalid"] {
+    border-color: red;
+    border-width: 2px;
+}
+
+input[data-state="valid"] {
+    border-color: black;
+    border-width: 1px;
+}
+
+.submitBtn--enabled {
+    opacity: 1;
 }
