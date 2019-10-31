@@ -244,12 +244,24 @@
 }
 
 .dialog-body {
-    margin: 10px;
+    margin: 10px 0 10px 0;
+    width: 100%;
 }
 
 .dialog-body input {
     width: 100%;
+    height: 30px;
     font-size: 1em;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: thin;
+    font-size: 1em;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.dialog-form-label {
+    margin-top: 5px;
 }
 
 .dialog-buttons {
@@ -273,7 +285,7 @@
     color: #FFFFFF;
     opacity: .5;
     border-radius: 50%;
-    height: 170px;
+    height: 160px;
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 2px 9px 1px rgba(0, 0, 0, 0.12), 0 4px 2px -2px rgba(0, 0, 0, 0.2);
 }
 
