@@ -15,7 +15,7 @@
             function getLocation() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(showPosition, showError, {
-                        timeout: 7000,
+                        timeout: 30000,
                         maximumAge: 600000
                     });
                 } else {
